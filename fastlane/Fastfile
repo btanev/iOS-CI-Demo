@@ -67,8 +67,8 @@ platform :ios do
     #upload to Beta by Crashlytics
     crashlytics({
       crashlytics_path: './Pods/Crashlytics/iOS/Crashlytics.framework',
-      api_token: ENV['CRASHLYTICS_API_TOKEN'],
-      build_secret: ENV['CRASHLYTICS_BUILD_SECRET'],
+      api_token: ENV['CRASHLYTICS_API_KEY'],
+      build_secret: ENV['CRASHLYTICS_SECRET'],
       ipa_path: "build/development/CIDemo.ipa",
       notes: changelog
     })
