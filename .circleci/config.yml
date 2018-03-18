@@ -25,9 +25,9 @@ jobs:
           command: bundle install
 
       # Install CocoaPods
-      - run:
-          name: Install CocoaPods
-          command: bundle exec pod install
+      # - run:
+      #     name: Install CocoaPods
+      #     command: bundle exec pod install
 
       - run:
           name: Validate Installed Versions
@@ -48,6 +48,9 @@ jobs:
       # in the Artifacts tab
       - store_test_results:
           path: fastlane/test_output
+      - store_artifacts:
+          path: fastlane/test_output
+          destination: test_output
       - store_artifacts:
           path: /tmp/test-results
           destination: scan-test-results
