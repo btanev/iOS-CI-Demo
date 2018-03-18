@@ -1,0 +1,72 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  before_all do
+  	# https://docs.fastlane.tools/actions/setup_circle_ci/
+  	# Setup the keychain and match to work with CircleCI
+    setup_circle_ci
+  end
+
+  circleBuildNum = ENV["CIRCLE_BUILD_NUM"] || "1001"
+  changelog = changelog_from_git_commits(
+  	commits_count: "10",
+  	merge_commit_filtering: "exclude_merges"
+  )
+
+  desc "Runs all the tests"
+  lane :test do
+    scan
+  end
+
+  desc "Dev build"
+  lane :alpha do
+  	increment_build_number(
+      build_number: circleBuildNum
+    )
+
+    match(type: "development")
+
+    # disable_automatic_code_signing(
+    #   path: "CI Demo.xcodeproj",
+    #   team_id: "6E38FUWW9U"
+    # )
+
+    gym(
+      workspace: "CI Demo.xcworkspace",
+      scheme: "CI Demo",
+      clean: false,
+      output_directory: "build/development",
+      output_name: "CIDemo.ipa",
+      configuration: "Debug",
+      export_method: "development",
+
+      # http://support.crashlytics.com/knowledgebase/articles/92505-is-it-true-i-don-t-need-to-ship-with-debug-symbols
+      include_symbols: false,
+      # do not enable bitcode
+      # https://docs.fabric.io/ios/crashlytics/advanced-setup.html#bitcode-enabled-apps
+      include_bitcode: "false"
+    )
+
+	# enable_automatic_code_signing(path: "CI Demo.xcodeproj")
+
+    #upload to Beta by Crashlytics
+    crashlytics({
+      crashlytics_path: './Pods/Crashlytics/iOS/Crashlytics.framework',
+      api_token: ENV['CRASHLYTICS_API_TOKEN'],
+      build_secret: ENV['CRASHLYTICS_BUILD_SECRET'],
+      ipa_path: "build/development/CIDemo.ipa",
+      notes: changelog
+    })
+  end
+end
