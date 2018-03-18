@@ -10,6 +10,9 @@ jobs:
     macos:
       xcode: "9.2.0"
 
+    # needed because of the changed Ruby version
+    shell: /bin/bash --login -eo pipefail
+
     steps:
       - checkout
       - run: bundle install
@@ -40,10 +43,13 @@ jobs:
     macos:
       xcode: "9.2.0"
 
+    # needed because of the changed Ruby version
+    shell: /bin/bash --login -eo pipefail
+
     steps:
       - checkout
       - run: bundle install
-      
+
       # Install CocoaPods
       - run:
           name: Install CocoaPods
