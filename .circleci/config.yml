@@ -10,14 +10,14 @@ jobs:
     macos:
       xcode: "9.2.0"
 
-    run:
-      name: Set Ruby Version
-      command:  echo "ruby-2.4" > ~/.ruby-version
-
     # needed because of the changed Ruby version
     shell: /bin/bash --login -eo pipefail
 
     steps:
+      - run:
+          name: Set Ruby Version
+          command:  echo "ruby-2.4" > ~/.ruby-version
+
       - checkout
       - run: bundle install
       # Install CocoaPods
