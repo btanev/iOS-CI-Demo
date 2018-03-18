@@ -29,9 +29,9 @@ jobs:
           name: Install CocoaPods
           command: bundle exec pod install
 
-      - run:
-          name: Validate Installed Versions
-          run: ruby --version; bundle --version; bundle exec pod --version; bundle exec fastlane --version
+      # - run:
+      #     name: Validate Installed Versions
+      #     run: ruby --version; bundle --version; bundle exec pod --version; bundle exec fastlane --version
 
       # Build the app and run tests
       - run:
