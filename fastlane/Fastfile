@@ -26,7 +26,11 @@ platform :ios do
 
   desc "Runs all the tests"
   lane :test do
-    scan
+    scan(
+      scheme: "CI DemoTests",
+      devices: ["iPhone 8"],
+      clean: true
+    )
   end
 
   desc "Dev build"
