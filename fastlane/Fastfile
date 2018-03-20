@@ -41,11 +41,6 @@ platform :ios do
 
     match(type: "development")
 
-    # disable_automatic_code_signing(
-    #   path: "CI Demo.xcodeproj",
-    #   team_id: "6E38FUWW9U"
-    # )
-
     gym(
       workspace: "CI Demo.xcworkspace",
       scheme: "CI Demo",
@@ -61,8 +56,6 @@ platform :ios do
       # https://docs.fabric.io/ios/crashlytics/advanced-setup.html#bitcode-enabled-apps
       include_bitcode: "false"
     )
-
-	# enable_automatic_code_signing(path: "CI Demo.xcodeproj")
 
     #upload to Beta by Crashlytics
     crashlytics({
